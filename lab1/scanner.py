@@ -1,6 +1,6 @@
 import ply.lex as lex
 
-literals = [ '+','-','*','/','(',')' ]
+literals = [ '+','-','*','/','(',')','=','[',']','>','<','{','}',':','\'',';',',']
 
 reserved = {
     'if' : 'IF',
@@ -26,40 +26,156 @@ tokens = ['ADD','SUB','MUL','DIV','DOTADD','DOTSUB',
 t_ignore = ' \t'
 
 
-#explicitly defined tokens regexes
+#explicitly defined tokens rules
 
-t_ADD = r'\+'
-t_SUB = r'-'
-t_MUL = r'\*'
-t_DIV = r'/'
+
 t_DOTADD = r'\.\+'
 t_DOTSUB = r'\.\-'
 t_DOTMUL = r'\.\*'
 t_DOTDIV = r'\./'
-t_ASSIGN = r'='
 t_ASSIGNADD = r'\+='
 t_ASSIGNSUB = r'\-='
 t_ASSIGNMUL = r'\*='
 t_ASSIGNDIV = r'/='
-t_LT = r'<'
-t_GT = r'>'
+
 t_LEQ = r'<='
 t_GEQ = r'>='
 t_NEQ = r'!='
 t_EQ = r'=='
-t_LPAR = r'\('
-t_RPAR = r'\)'
-t_LSQBR = r'\['
-t_RSQBR = r'\]'
-t_LCBRACE = r'\{'
-t_RCBRACE = r'\}'
-t_RANGE = r'\:'
-t_TRANSPOSE = r'\''
-t_COMMA = r'\,'
-t_SEMIC = r'\;'
 
-#reserved keywords regexes
+# literals 
 
+def t_LT(t):
+    r'<'
+    t.type = '<'
+    return t
+
+def t_GT(t):
+    r'>'
+    t.type = '>'
+    return t
+
+def t_ASSIGN(t):
+    r'='
+    t.type = '='
+    return t
+
+def t_ADD(t):
+    r'\+'
+    t.type = '+'
+    return t
+
+def t_SUB(t):
+    r'-'
+    t.type = '-'
+    return t
+
+def t_MUL(t):
+    r'\*'
+    t.type = '*'
+    return t
+
+def t_DIV(t):
+    r'/'
+    t.type = '/'
+    return t
+
+def t_LPAR(t):
+    r'\('
+    t.type = '('
+    return t
+
+def t_RPAR(t):
+    r'\)'
+    t.type = ')'
+    return t
+
+def t_LSQBR(t):
+    r'\['
+    t.type = '['
+    return t
+
+def t_RSQBR(t):
+    r'\]'
+    t.type = ']'
+    return t
+
+def t_LCBRACE(t):
+    r'\{'
+    t.type = '{'
+    return t
+
+def t_RCBRACE(t):
+    r'\}'
+    t.type = '}'
+    return t
+
+def t_RANGE(t):
+    r'\:'
+    t.type = ':'
+    return t
+def t_TRANSPOSE(t):
+    r'\''
+    t.type = '\''
+    return t
+
+def t_COMMA(t):
+    r'\,'
+    t.type = ','
+    return t
+
+def t_SEMIC(t):
+    r'\;'
+    t.type = ';'
+    return t
+
+#reserved keywords rules
+
+def t_IF(t):
+    r'if'
+    return t
+
+def t_ELSE(t):
+    r'else'
+    return t
+
+def t_FOR(t):
+    r'for'
+    return t
+
+def t_WHILE(t):
+    r'while'
+    return t
+
+def t_BREAK(t):
+    r'break'
+    return t
+
+def t_CONTINUE(t):
+    r'continue'
+    return t
+
+def t_RETURN(t):
+    r'return'
+    return t
+
+def t_EYE(t):
+    r'eye'
+    return t
+
+def t_ZEROS(t):
+    r'zeros'
+    return t
+
+def t_ONES(t):
+    r'ones'
+    return t
+
+def t_PRINT(t):
+    r'print'
+    return t
+
+#id, string and number rules
 
 def t_FLOATNUM(t):
     r'(([0-9]+)(\.[0-9]+))'
@@ -75,10 +191,25 @@ def t_INTNUM(t):
     t.value = int(t.value)
     return t
 
+def t_STRING(t):
+    r'\"[^\"]*\"'
+    return t
+
+def t_commentary(t):
+    r'\#[^\n]*'
+
+#newline rules, column number rules
+
 def t_newline(t):
      r'\n+'
      t.lexer.lineno += len(t.value)
 
+def find_column(input, token):
+    line_start = input.rfind('\n', 0, token.lexpos) + 1
+    return (token.lexpos - line_start) + 1
+    
+def t_error(t):
+    print("Illegal character '%s'" %t.value[0])
+    t.lexer.skip(1)
 
-def p_error(p):
-    print("parsing error\n")
+lexer = lex.lex()
