@@ -46,22 +46,22 @@ t_EQ = r'=='
 # literals 
 
 def t_LT(t):
-    r'<'
+    r'<[^=]'
     t.type = '<'
     return t
 
 def t_GT(t):
-    r'>'
+    r'>[^=]'
     t.type = '>'
     return t
 
 def t_ASSIGN(t):
-    r'='
+    r'=[^=]'
     t.type = '='
     return t
 
 def t_ADD(t):
-    r'\+'
+    r'\+[^=]'
     t.type = '+'
     return t
 
@@ -178,7 +178,7 @@ def t_PRINT(t):
 #id, string and number rules
 
 def t_FLOATNUM(t):
-    r'(([0-9]+)(\.[0-9]+))'
+    r'(([0-9]+)((\.[0-9]+) | (\.[0-9]+)[eE]?[-+][0-9]+))'
     t.value = float(t.value)
     return t
 
@@ -207,9 +207,9 @@ def t_newline(t):
 def find_column(input, token):
     line_start = input.rfind('\n', 0, token.lexpos) + 1
     return (token.lexpos - line_start) + 1
-    
+
 def t_error(t):
-    print("Illegal character '%s'" %t.value[0])
+    print("(%s): Illegal character '%s'" %(t.lineno,t.value[0]))
     t.lexer.skip(1)
 
 lexer = lex.lex()
