@@ -16,11 +16,10 @@ reserved = {
     'print' : 'PRINT'
 }
 
-tokens = ['ADD','SUB','MUL','DIV','DOTADD','DOTSUB',
-        'DOTMUL','DOTDIV','ASSIGN','ASSIGNADD','ASSIGNSUB',
-        'ASSIGNMUL','ASSIGNDIV','LT','GT','LEQ','GEQ',
-        'NEQ','EQ','LPAR','RPAR','LSQBR','RSQBR','LCBRACE',
-        'RCBRACE','RANGE','TRANSPOSE','COMMA','SEMIC','ID',
+tokens = ['DOTADD','DOTSUB',
+        'DOTMUL','DOTDIV','ASSIGNADD','ASSIGNSUB',
+        'ASSIGNMUL','ASSIGNDIV','LEQ','GEQ',
+        'NEQ','EQ','ID',
         'INTNUM','FLOATNUM','STRING'] + list(reserved.values())
 
 t_ignore = ' \t'
@@ -41,93 +40,7 @@ t_ASSIGNDIV = r'/='
 t_LEQ = r'<='
 t_GEQ = r'>='
 t_NEQ = r'!='
-t_EQ = r'=='
-
-# literals 
-
-def t_LT(t):
-    r'<[^=]'
-    t.type = '<'
-    return t
-
-def t_GT(t):
-    r'>[^=]'
-    t.type = '>'
-    return t
-
-def t_ASSIGN(t):
-    r'=[^=]'
-    t.type = '='
-    return t
-
-def t_ADD(t):
-    r'\+[^=]'
-    t.type = '+'
-    return t
-
-def t_SUB(t):
-    r'-'
-    t.type = '-'
-    return t
-
-def t_MUL(t):
-    r'\*'
-    t.type = '*'
-    return t
-
-def t_DIV(t):
-    r'/'
-    t.type = '/'
-    return t
-
-def t_LPAR(t):
-    r'\('
-    t.type = '('
-    return t
-
-def t_RPAR(t):
-    r'\)'
-    t.type = ')'
-    return t
-
-def t_LSQBR(t):
-    r'\['
-    t.type = '['
-    return t
-
-def t_RSQBR(t):
-    r'\]'
-    t.type = ']'
-    return t
-
-def t_LCBRACE(t):
-    r'\{'
-    t.type = '{'
-    return t
-
-def t_RCBRACE(t):
-    r'\}'
-    t.type = '}'
-    return t
-
-def t_RANGE(t):
-    r'\:'
-    t.type = ':'
-    return t
-def t_TRANSPOSE(t):
-    r'\''
-    t.type = '\''
-    return t
-
-def t_COMMA(t):
-    r'\,'
-    t.type = ','
-    return t
-
-def t_SEMIC(t):
-    r'\;'
-    t.type = ';'
-    return t
+t_EQ = r"=="
 
 #reserved keywords rules
 
