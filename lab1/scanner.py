@@ -44,49 +44,6 @@ t_EQ = r"=="
 
 #reserved keywords rules
 
-def t_IF(t):
-    r'if'
-    return t
-
-def t_ELSE(t):
-    r'else'
-    return t
-
-def t_FOR(t):
-    r'for'
-    return t
-
-def t_WHILE(t):
-    r'while'
-    return t
-
-def t_BREAK(t):
-    r'break'
-    return t
-
-def t_CONTINUE(t):
-    r'continue'
-    return t
-
-def t_RETURN(t):
-    r'return'
-    return t
-
-def t_EYE(t):
-    r'eye'
-    return t
-
-def t_ZEROS(t):
-    r'zeros'
-    return t
-
-def t_ONES(t):
-    r'ones'
-    return t
-
-def t_PRINT(t):
-    r'print'
-    return t
 
 #id, string and number rules
 
@@ -97,6 +54,7 @@ def t_FLOATNUM(t):
 
 def t_ID(t):
     r"[a-zA-Z_]\w*"
+    t.type = reserved.get(t.value,'ID')
     return t
 
 def t_INTNUM(t):
