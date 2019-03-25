@@ -47,14 +47,15 @@ t_EQ = r"=="
 
 #id, string and number rules
 
-def t_FLOATNUM(t):
-    r'(([0-9]+)((\.[0-9]+) | (\.[0-9]+)[eE]?[-+][0-9]+))'
-    t.value = float(t.value)
-    return t
 
 def t_ID(t):
     r"[a-zA-Z_]\w*"
     t.type = reserved.get(t.value,'ID')
+    return t
+
+def t_FLOATNUM(t):
+    r'((\d+\.\d*)|(\d*\.\d+))(E\d+)?'
+    t.value = float(t.value)
     return t
 
 def t_INTNUM(t):
