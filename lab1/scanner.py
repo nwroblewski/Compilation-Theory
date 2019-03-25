@@ -42,8 +42,6 @@ t_GEQ = r'>='
 t_NEQ = r'!='
 t_EQ = r"=="
 
-#reserved keywords rules
-
 
 #id, string and number rules
 
@@ -54,7 +52,7 @@ def t_ID(t):
     return t
 
 def t_FLOATNUM(t):
-    r'((\d+\.\d*)|(\d*\.\d+))(E\d+)?'
+    r'([0-9]+)\.([0-9]+[eE]?[-]?[0-9]+)'
     t.value = float(t.value)
     return t
 
